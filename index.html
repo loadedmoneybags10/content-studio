@@ -59,6 +59,23 @@
   .tab.active { color: #e8a44a; border-bottom-color: #e8a44a; }
   .error-msg { background: rgba(226,75,74,0.1); border: 0.5px solid rgba(226,75,74,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: rgba(240,180,180,0.9); display: none; }
   .error-msg.visible { display: block; }
+
+  /* ── Visual Prompt Card ────────────────────────────────────────────────────── */
+  .visual-card {
+    background: rgba(232,164,74,0.04);
+    border: 0.5px solid rgba(232,164,74,0.25);
+    margin-top: 4px;
+  }
+  .visual-card:hover { border-color: rgba(232,164,74,0.5); }
+  .visual-card .result-platform { color: #e8a44a; letter-spacing: 0.5px; }
+  .visual-card .result-text { font-size: 13px; color: rgba(240,238,232,0.7); line-height: 1.7; font-style: italic; }
+  .visual-label { font-size: 10px; color: rgba(232,164,74,0.5); margin-top: 8px; letter-spacing: 0.5px; }
+  .visual-loading { display: flex; align-items: center; gap: 8px; font-size: 12px; color: rgba(232,164,74,0.5); padding: 12px 0 4px; }
+  .visual-dot { width: 4px; height: 4px; border-radius: 50%; background: #e8a44a; animation: pulse 1.2s ease-in-out infinite; }
+  .visual-dot:nth-child(2) { animation-delay: 0.2s; }
+  .visual-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+
   @media (max-width: 768px) { .main { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.08); flex-direction: row; flex-wrap: wrap; padding: 1rem; } .sidebar-label { display: none; } .controls-row { grid-template-columns: 1fr; } }
 </style>
 </head>
@@ -157,6 +174,9 @@
         <div style="font-size:11px; opacity:0.5;">Powered by Claude AI</div>
       </div>
     </div>
+
+    <!-- Visual prompt renders here, outside the filtered results -->
+    <div id="visualArea"></div>
   </div>
 </div>
 
@@ -165,6 +185,7 @@ let currentMode = 'captions';
 let activeTones = new Set(['Bold & Unapologetic']);
 let currentResults = [];
 let currentFilter = 'all';
+let currentVisualPrompt = '';
 
 const modeConfig = {
   captions: {
@@ -196,7 +217,7 @@ GOOD EXAMPLE (write like this):
 Generate 4 captions. Mix Instagram (2-4 lines + hashtags) and TikTok (1-2 lines, hook-first). Return ONLY a JSON array, no markdown, no explanation:
 [{"platform":"Instagram","text":"...","tags":["#tag1","#tag2"]},{"platform":"TikTok","text":"...","tags":[]}]`
   },
-hooks: {
+  hooks: {
     title: 'Hook Generator',
     sub: 'First 3 seconds make or break a video. Generate scroll-stopping opening lines.',
     prompt: (v,d,b,t) => `You write opening hooks for TikTok and Reels for Venuu — a premium nightlife app that shows live headcounts at bars in real time.
@@ -209,14 +230,6 @@ THE AUDIENCE: 18-28, Knoxville. Girls getting ready together. Guys who already k
 
 A hook is the FIRST LINE seen or heard — its only job is to make someone stop scrolling in under 2 seconds.
 
-TONE GUIDANCE FOR "${t}":
-- Flirty = confidence that doesn't explain itself. Implied story. Let the viewer fill in the blanks. A raised eyebrow, not a wink emoji.
-- FOMO = specificity creates envy. "94% capacity at 10pm" is more powerful than "it was SO packed"
-- Hype = earned energy, not announced energy. Show don't tell.
-- Mysterious = incomplete sentences. Let it hang.
-- Bold = statement of fact, no justification needed
-- Funny = dry, self-aware, never silly
-
 STRICT RULES:
 - Under 10 words each
 - No cover charge, payment, or skip the line mentions
@@ -226,26 +239,7 @@ STRICT RULES:
 - The best hooks imply a whole story in one line
 - At least 2 should reference the live headcount naturally — like something you'd text a friend
 
-NEVER WRITE LIKE THIS:
-- "Cool Beans was calling our names tonight" — too poetic, too soft
-- "saturday energy found us at Cool Beans" — passive and dull
-- "POV: Best night of your life starts here" — cringe, desperate
-
-WRITE MORE LIKE THIS:
-- "she checked Venuu. grabbed her jacket. said nothing."
-- "Cool Beans at 91%. yeah we're going."
-- "knew the vibe before we walked in. that's the whole point."
-- "outfit was already decided. venuu confirmed the rest."
-- "85% capacity and climbing. we did not hesitate."
-- "the girls checked Venuu. the plan made itself."
-- "some saturdays just have a address. tonight it was Cool Beans."
-
-IMPORTANT: At least 2 hooks should feel like they were written by or for a girl getting ready to go out. 
-Think: the pregame energy, the outfit check, the group chat that already decided, the confidence of knowing 
-exactly where you're going before you leave the house. That specific feminine Saturday night energy 
-is the soul of this content.
-
-Generate 5 hooks that would genuinely stop someone scrolling at 8pm on a ${d} getting ready to go out. Return ONLY JSON array, no markdown:
+Generate 5 hooks. Return ONLY JSON array, no markdown:
 [{"platform":"TikTok/Reels","text":"hook here","tags":["concept"]}]`
   },
   week: {
@@ -278,7 +272,7 @@ STRICT RULES:
 - Do NOT sound like an advertisement or sponsored post
 - Do NOT use "amazing atmosphere" or "great drinks" — that means nothing
 - Be specific about the bar — time of night, what kind of crowd, what it feels like
-- Reference Venuu's live headcount naturally in at least 2 posts — like a friend telling you what the app showed them, not like an ad
+- Reference Venuu's live headcount naturally in at least 2 posts
 - The goal is to make someone text their group chat "we're going here"
 
 Return ONLY JSON array:
@@ -299,9 +293,6 @@ STRICT RULES:
 - At least 2 should create FOMO through implication, not by saying "you're missing out"
 - Write like a caption a cool person would put on their own story, not branded content
 
-BAD: "Use Venuu to see which bars are packed tonight! Don't miss out! 🔥"
-GOOD: "knoxville on a saturday\nwe knew before we left\nvenuu"
-
 Return ONLY JSON array:
 [{"platform":"Story","text":"line1\nline2\nline3","tags":["overlay"]}]`
   },
@@ -310,23 +301,53 @@ Return ONLY JSON array:
     sub: 'Native TikTok captions with hooks, CTAs, and trending energy.',
     prompt: (v,d,b,t) => `Write TikTok captions for Venuu, a Knoxville nightlife app. ${d}, ${v}${b?`, ${b}`:''}.  Tone: ${t}.
 
-TikTok captions are different from Instagram — they're conversational, lowercase-heavy, self-aware, and short. The best ones feel like a text message, not a caption.
+TikTok captions are different from Instagram — they're conversational, lowercase-heavy, self-aware, and short.
 
 STRICT RULES:
 - No cover charge, skip the line, or payment features
 - No hashtag dumps — maximum 3 hashtags, all relevant
 - Lowercase feels more native to TikTok — use it where it fits
 - No "POV:" unless it's genuinely creative and unexpected
-- Reference Venuu's live headcount feature in at least 3 — but make it feel like something you'd actually say to a friend
+- Reference Venuu's live headcount feature in at least 3
 - Self-aware and slightly understated beats over-hyped every single time
-
-BAD: "POV: You used Venuu to find the most LIT bar in Knoxville! 🔥🔥 #fyp #nightlife #venuu #knoxville #bars"
-GOOD: "opened the app before we left. cool beans was already at 90%. we didn't even debate it #knoxville #venuu"
 
 Generate 5 captions. Return ONLY JSON array:
 [{"platform":"TikTok","text":"caption","tags":["#fyp","#venuu"]}]`
   }
 };
+
+// ── Visual prompt builder ─────────────────────────────────────────────────────
+function buildVisualPrompt(v, d, b, t) {
+  const vibeMap = {
+    hype: 'high energy, crowded, electric atmosphere',
+    chill: 'relaxed, intimate, low-key bar setting',
+    college: 'college crowd, casual and fun, UTK energy',
+    ladies: 'girls night out, glamorous, feminine energy',
+    weekday: 'weeknight crowd, laid-back, after-work vibe',
+    weekend: 'packed Saturday night, peak energy, everyone out'
+  };
+  const vibeDesc = vibeMap[v] || v;
+
+  return `Generate a detailed AI image/video generation prompt for Venuu nightlife content.
+
+Venuu is a Knoxville, Tennessee nightlife app used by college students (18-24). Their visual content features young women wearing Venuu branded merch (hoodies, tees, hats) in authentic bar settings — aspirational but real, never overly produced.
+
+Context for this prompt:
+- Day/Night: ${d}
+- Vibe: ${vibeDesc}
+- Tone: ${t}
+${b ? `- Location: ${b}` : '- Location: Knoxville bar scene'}
+
+Write a single detailed 80-120 word prompt for Higgsfield or FLUX image/video generation. Include:
+1. SUBJECT: 1-3 young women (early 20s) in Venuu branded clothing, natural poses, authentic expressions
+2. SETTING: specific bar interior matching the vibe — describe layout, crowd density, time of night
+3. LIGHTING: exact lighting style (warm amber Edison bulbs, neon bar signs, candlelight, etc.)
+4. CAMERA: phone camera aesthetic, candid style, specific angle (eye level, slight low angle, etc.)
+5. MOOD: match the ${t} tone — aspirational, not staged
+6. DETAILS: specific atmospheric details that make it feel real
+
+Return ONLY the prompt text. No labels, no JSON, no explanation.`;
+}
 
 function setMode(mode, btn) {
   currentMode = mode;
@@ -351,8 +372,10 @@ function toggleTone(btn, tone) {
 
 function clearResults() {
   currentResults = [];
+  currentVisualPrompt = '';
   document.getElementById('tabRow').style.display = 'none';
   document.getElementById('errorMsg').classList.remove('visible');
+  document.getElementById('visualArea').innerHTML = '';
   document.getElementById('resultsArea').innerHTML = `<div class="empty-state"><div style="font-size:28px;opacity:0.3;">◈</div><div>Set your vibe and hit generate.</div><div style="font-size:11px;opacity:0.5;">Powered by Claude AI</div></div>`;
 }
 
@@ -370,26 +393,56 @@ async function generate() {
   loader.classList.add('active');
   errorEl.classList.remove('visible');
   document.getElementById('tabRow').style.display = 'none';
+  document.getElementById('visualArea').innerHTML = '';
   document.getElementById('resultsArea').innerHTML = `<div class="empty-state"><div style="font-size:28px;opacity:0.3;">◈</div><div>Cooking up content...</div></div>`;
 
   const cfg = modeConfig[currentMode];
-  const prompt = cfg.prompt(v, d, b, t);
+  const captionPrompt = cfg.prompt(v, d, b, t);
+  const visualSystemPrompt = buildVisualPrompt(v, d, b, t);
+
+  // Show visual loading state immediately
+  document.getElementById('visualArea').innerHTML = `
+    <div class="result-card visual-card">
+      <div class="result-card-header">
+        <div class="result-platform">◈ AI Visual Prompt — Higgsfield / FLUX</div>
+      </div>
+      <div class="visual-loading">
+        <div class="visual-dot"></div><div class="visual-dot"></div><div class="visual-dot"></div>
+        <span>Building visual prompt...</span>
+      </div>
+    </div>`;
 
   try {
-    const res = await fetch('https://tribewebservices.app.n8n.cloud/webhook/bfd0b18d-22ad-4556-a89b-0bf0c29e0489', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt })
-    });
+    // Fire both requests in parallel
+    const [captionRes, visualRes] = await Promise.all([
+      fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: captionPrompt })
+      }),
+      fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: visualSystemPrompt })
+      })
+    ]);
 
-    if (!res.ok) throw new Error(`Server error: ${res.status}`);
-
-    const data = await res.json();
-    const raw = data.content.map(i => i.text || '').join('');
+    // Process captions
+    if (!captionRes.ok) throw new Error(`Server error: ${captionRes.status}`);
+    const captionData = await captionRes.json();
+    const raw = captionData.content.map(i => i.text || '').join('');
     const clean = raw.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(clean);
     currentResults = parsed;
     renderResults(parsed);
+
+    // Process visual prompt
+    if (visualRes.ok) {
+      const visualData = await visualRes.json();
+      currentVisualPrompt = visualData.content.map(i => i.text || '').join('').trim();
+    }
+    renderVisualPrompt(currentVisualPrompt);
+
   } catch(e) {
     errorEl.textContent = `Something went wrong: ${e.message}. Check your API key is set in Vercel.`;
     errorEl.classList.add('visible');
@@ -416,14 +469,30 @@ function renderResults(results) {
     <div class="result-card">
       <div class="result-card-header">
         <div class="result-platform">${r.platform}</div>
-        <button class="copy-btn" onclick="copyText(this, ${i})" id="copy-${i}">Copy</button>
+        <button class="copy-btn" onclick="copyCaption(this, ${i})">Copy</button>
       </div>
       <div class="result-text">${esc(r.text)}</div>
       ${r.tags && r.tags.length ? `<div class="result-tags">${r.tags.map(t=>`<span class="result-tag">${esc(t)}</span>`).join('')}</div>` : ''}
     </div>`).join('') || `<div class="empty-state"><div>No results for this filter.</div></div>`;
 }
 
-function copyText(btn, i) {
+function renderVisualPrompt(text) {
+  if (!text) {
+    document.getElementById('visualArea').innerHTML = '';
+    return;
+  }
+  document.getElementById('visualArea').innerHTML = `
+    <div class="result-card visual-card">
+      <div class="result-card-header">
+        <div class="result-platform">◈ AI Visual Prompt — Higgsfield / FLUX</div>
+        <button class="copy-btn" onclick="copyVisual(this)">Copy Prompt</button>
+      </div>
+      <div class="result-text visual-text">${esc(text)}</div>
+      <div class="visual-label">Paste this into Higgsfield or any AI image/video tool</div>
+    </div>`;
+}
+
+function copyCaption(btn, i) {
   const filtered = currentFilter === 'all' ? currentResults : currentResults.filter(r => r.platform.toLowerCase().includes(currentFilter));
   const item = filtered[i];
   if (!item) return;
@@ -432,6 +501,15 @@ function copyText(btn, i) {
     btn.textContent = 'Copied!';
     btn.classList.add('copied');
     setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function copyVisual(btn) {
+  if (!currentVisualPrompt) return;
+  navigator.clipboard.writeText(currentVisualPrompt).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy Prompt'; btn.classList.remove('copied'); }, 2000);
   });
 }
 
