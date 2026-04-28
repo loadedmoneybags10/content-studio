@@ -11,7 +11,10 @@
   .header { padding: 1.25rem 2rem; border-bottom: 0.5px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; }
   .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: -0.5px; }
   .logo span { color: #e8a44a; }
+  .header-right { display: flex; align-items: center; gap: 10px; }
   .badge { font-size: 11px; font-weight: 500; background: rgba(232,164,74,0.15); color: #e8a44a; border: 0.5px solid rgba(232,164,74,0.3); padding: 4px 10px; border-radius: 20px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .history-btn { font-size: 12px; background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.12); color: rgba(240,238,232,0.5); padding: 5px 12px; border-radius: 20px; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.15s; }
+  .history-btn:hover { border-color: rgba(232,164,74,0.4); color: #e8a44a; }
   .main { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 65px); }
   .sidebar { border-right: 0.5px solid rgba(255,255,255,0.08); padding: 1.5rem; display: flex; flex-direction: column; gap: 6px; }
   .sidebar-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(240,238,232,0.3); margin: 12px 0 4px; font-weight: 500; }
@@ -40,6 +43,13 @@
   .loading-bar.active { display: block; }
   .loading-bar-inner { height: 100%; background: #e8a44a; border-radius: 2px; animation: loadingAnim 1.5s ease-in-out infinite; width: 40%; }
   @keyframes loadingAnim { 0% { transform: translateX(-100%); } 100% { transform: translateX(350%); } }
+
+  .batch-actions { display: flex; align-items: center; gap: 10px; }
+  .batch-btn { padding: 6px 14px; background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.12); border-radius: 6px; color: rgba(240,238,232,0.5); font-size: 12px; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all 0.15s; }
+  .batch-btn:hover { border-color: rgba(232,164,74,0.4); color: #e8a44a; }
+  .batch-btn.copied { color: #7bc67e; border-color: rgba(123,198,126,0.3); }
+  .batch-count { font-size: 11px; color: rgba(240,238,232,0.25); }
+
   .results-area { display: flex; flex-direction: column; gap: 12px; }
   .result-card { background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 1rem 1.25rem; animation: fadeIn 0.3s ease; }
   .result-card:hover { border-color: rgba(232,164,74,0.2); }
@@ -52,6 +62,23 @@
   .result-text { font-size: 14px; line-height: 1.65; color: rgba(240,238,232,0.85); white-space: pre-wrap; }
   .result-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
   .result-tag { font-size: 11px; color: rgba(232,164,74,0.7); background: rgba(232,164,74,0.08); padding: 2px 8px; border-radius: 4px; }
+
+  .card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 8px; border-top: 0.5px solid rgba(255,255,255,0.05); }
+  .char-count { font-size: 11px; color: rgba(240,238,232,0.2); }
+  .card-actions { display: flex; gap: 4px; }
+  .card-action-btn { background: transparent; border: none; color: rgba(240,238,232,0.3); font-size: 11px; font-family: 'DM Sans', sans-serif; padding: 3px 8px; cursor: pointer; border-radius: 4px; transition: all 0.15s; }
+  .card-action-btn:hover { color: #e8a44a; background: rgba(232,164,74,0.08); }
+  .card-action-btn.active-edit { color: #e8a44a; background: rgba(232,164,74,0.08); }
+  .card-action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .caption-textarea { width: 100%; background: rgba(232,164,74,0.05); border: 0.5px solid rgba(232,164,74,0.3); border-radius: 6px; color: rgba(240,238,232,0.9); font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.65; padding: 8px 10px; outline: none; resize: vertical; min-height: 80px; }
+
+  .variations-area { margin-top: 10px; padding-top: 10px; border-top: 0.5px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 8px; }
+  .variations-label { font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(232,164,74,0.4); margin-bottom: 2px; }
+  .variation-item { background: rgba(255,255,255,0.02); border: 0.5px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 10px 12px; display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+  .variation-text { font-size: 13px; line-height: 1.6; color: rgba(240,238,232,0.75); white-space: pre-wrap; flex: 1; }
+  .variation-loading { font-size: 12px; color: rgba(232,164,74,0.4); display: flex; align-items: center; gap: 6px; padding: 6px 0; }
+
   .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3rem; color: rgba(240,238,232,0.2); font-size: 13px; gap: 8px; border: 0.5px dashed rgba(255,255,255,0.08); border-radius: 12px; text-align: center; }
   .tab-row { display: flex; gap: 0; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
   .tab { padding: 8px 16px; font-size: 12.5px; color: rgba(240,238,232,0.4); border: none; background: transparent; font-family: 'DM Sans', sans-serif; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; margin-bottom: -0.5px; }
@@ -60,12 +87,7 @@
   .error-msg { background: rgba(226,75,74,0.1); border: 0.5px solid rgba(226,75,74,0.2); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: rgba(240,180,180,0.9); display: none; }
   .error-msg.visible { display: block; }
 
-  /* ── Visual Prompt Card ────────────────────────────────────────────────────── */
-  .visual-card {
-    background: rgba(232,164,74,0.04);
-    border: 0.5px solid rgba(232,164,74,0.25);
-    margin-top: 4px;
-  }
+  .visual-card { background: rgba(232,164,74,0.04); border: 0.5px solid rgba(232,164,74,0.25); margin-top: 4px; }
   .visual-card:hover { border-color: rgba(232,164,74,0.5); }
   .visual-card .result-platform { color: #e8a44a; letter-spacing: 0.5px; }
   .visual-card .result-text { font-size: 13px; color: rgba(240,238,232,0.7); line-height: 1.7; font-style: italic; }
@@ -76,14 +98,35 @@
   .visual-dot:nth-child(3) { animation-delay: 0.4s; }
   @keyframes pulse { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
 
-  @media (max-width: 768px) { .main { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.08); flex-direction: row; flex-wrap: wrap; padding: 1rem; } .sidebar-label { display: none; } .controls-row { grid-template-columns: 1fr; } }
+  .history-modal { display: none; position: fixed; inset: 0; z-index: 100; }
+  .history-modal.open { display: flex; }
+  .history-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); }
+  .history-panel { position: relative; margin-left: auto; width: 480px; max-width: 100vw; background: #0f0f18; border-left: 0.5px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+  .history-header { padding: 1.25rem 1.5rem; border-bottom: 0.5px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+  .history-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 16px; }
+  .history-close { background: transparent; border: none; color: rgba(240,238,232,0.4); font-size: 16px; cursor: pointer; padding: 4px 8px; border-radius: 4px; transition: color 0.15s; }
+  .history-close:hover { color: #f0eee8; }
+  .history-list { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 8px; }
+  .history-item { background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px 14px; cursor: pointer; transition: all 0.15s; }
+  .history-item:hover { border-color: rgba(232,164,74,0.3); background: rgba(232,164,74,0.04); }
+  .history-item-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+  .history-item-mode { font-size: 11px; font-weight: 500; color: #e8a44a; text-transform: uppercase; letter-spacing: 0.5px; }
+  .history-item-ts { font-size: 10px; color: rgba(240,238,232,0.25); }
+  .history-item-preview { font-size: 12px; color: rgba(240,238,232,0.5); line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .history-item-meta { font-size: 10px; color: rgba(240,238,232,0.2); margin-top: 6px; }
+  .history-empty { text-align: center; padding: 3rem; color: rgba(240,238,232,0.2); font-size: 13px; }
+
+  @media (max-width: 768px) { .main { grid-template-columns: 1fr; } .sidebar { border-right: none; border-bottom: 0.5px solid rgba(255,255,255,0.08); flex-direction: row; flex-wrap: wrap; padding: 1rem; } .sidebar-label { display: none; } .controls-row { grid-template-columns: 1fr; } .history-panel { width: 100vw; } }
 </style>
 </head>
 <body>
 
 <div class="header">
   <div class="logo">venuu<span>.</span>ai</div>
-  <div class="badge">Content Studio</div>
+  <div class="header-right">
+    <button class="history-btn" onclick="openHistory()">⟳ History</button>
+    <div class="badge">Content Studio</div>
+  </div>
 </div>
 
 <div class="main">
@@ -107,6 +150,13 @@
     </button>
     <button class="mode-btn" onclick="setMode('tiktok', this)">
       <div class="icon">▷</div>TikTok Captions
+    </button>
+    <div class="sidebar-label">Tools</div>
+    <button class="mode-btn" onclick="setMode('hashtags', this)">
+      <div class="icon">#</div>Hashtag Packs
+    </button>
+    <button class="mode-btn" onclick="setMode('abpairs', this)">
+      <div class="icon">⇄</div>A/B Pairs
     </button>
   </div>
 
@@ -161,6 +211,11 @@
     <div class="loading-bar" id="loadingBar"><div class="loading-bar-inner"></div></div>
     <div class="error-msg" id="errorMsg"></div>
 
+    <div class="batch-actions" id="batchActions" style="display:none;">
+      <button class="batch-btn" id="batchCopyBtn" onclick="batchCopyAll()">Copy All</button>
+      <span class="batch-count" id="batchCount"></span>
+    </div>
+
     <div class="tab-row" id="tabRow" style="display:none;">
       <button class="tab active" onclick="setTab('all', this)">All</button>
       <button class="tab" onclick="setTab('instagram', this)">Instagram</button>
@@ -175,8 +230,18 @@
       </div>
     </div>
 
-    <!-- Visual prompt renders here, outside the filtered results -->
     <div id="visualArea"></div>
+  </div>
+</div>
+
+<div class="history-modal" id="historyModal">
+  <div class="history-overlay" onclick="closeHistory()"></div>
+  <div class="history-panel">
+    <div class="history-header">
+      <div class="history-title">Generation History</div>
+      <button class="history-close" onclick="closeHistory()">✕</button>
+    </div>
+    <div class="history-list" id="historyList"></div>
   </div>
 </div>
 
@@ -186,6 +251,8 @@ let activeTones = new Set(['Bold & Unapologetic']);
 let currentResults = [];
 let currentFilter = 'all';
 let currentVisualPrompt = '';
+let currentInputs = {};
+let cardVariations = {};
 
 const modeConfig = {
   captions: {
@@ -224,9 +291,9 @@ Generate 4 captions. Mix Instagram (2-4 lines + hashtags) and TikTok (1-2 lines,
 
 Context: ${d}, ${v} vibe${b?`, at ${b}`:''}. Tone: ${t}.
 
-THE BRAND: Venuu sits at the intersection of luxury and college nightlife. Think Don Julio ads meets UTK Saturday night. Aspirational but real. Sexy but never desperate. The people using this app know where they're going before they leave — and that confidence is the whole personality.
+THE BRAND: Venuu sits at the intersection of luxury and college nightlife. Think Don Julio ads meets UTK Saturday night. Aspirational but real. Sexy but never desperate.
 
-THE AUDIENCE: 18-28, Knoxville. Girls getting ready together. Guys who already know the plan. People who take going out seriously without taking themselves too seriously.
+THE AUDIENCE: 18-28, Knoxville. Girls getting ready together. Guys who already know the plan.
 
 A hook is the FIRST LINE seen or heard — its only job is to make someone stop scrolling in under 2 seconds.
 
@@ -234,10 +301,8 @@ STRICT RULES:
 - Under 10 words each
 - No cover charge, payment, or skip the line mentions
 - Never start with "POV:"
-- Never ask a question that sounds like an ad
 - Lowercase feels more native — use it
-- The best hooks imply a whole story in one line
-- At least 2 should reference the live headcount naturally — like something you'd text a friend
+- At least 2 should reference the live headcount naturally
 
 Generate 5 hooks. Return ONLY JSON array, no markdown:
 [{"platform":"TikTok/Reels","text":"hook here","tags":["concept"]}]`
@@ -255,7 +320,6 @@ STRICT RULES:
 - At least 1 post should be funny/self-aware about going out culture
 - At least 1 post should reference the live headcount feature naturally
 - Write like a real person, not a social media intern at a corporation
-- No generic nightlife phrases — be specific to Knoxville and college culture
 
 Return ONLY JSON array:
 [{"platform":"Instagram","text":"full caption","tags":["Mon","awareness"]},{"platform":"TikTok","text":"hook + concept","tags":["Tue","engagement"]},{"platform":"Instagram","text":"...","tags":["Wed","feature"]},{"platform":"TikTok","text":"...","tags":["Thu","hype"]},{"platform":"Instagram","text":"...","tags":["Fri/Sat","weekend"]}]`
@@ -268,12 +332,11 @@ Return ONLY JSON array:
 ${d} night, ${v} energy. Tone: ${t}.
 
 STRICT RULES:
-- No mention of cover charge, skip the line, or payment features  
+- No mention of cover charge, skip the line, or payment features
 - Do NOT sound like an advertisement or sponsored post
 - Do NOT use "amazing atmosphere" or "great drinks" — that means nothing
 - Be specific about the bar — time of night, what kind of crowd, what it feels like
 - Reference Venuu's live headcount naturally in at least 2 posts
-- The goal is to make someone text their group chat "we're going here"
 
 Return ONLY JSON array:
 [{"platform":"Instagram","text":"...","tags":["#knoxville","#venuu"]},{"platform":"TikTok","text":"...","tags":[]},{"platform":"Instagram Story","text":"...","tags":[]},{"platform":"Instagram","text":"...","tags":["#tag1","#tag2"]}]`
@@ -290,8 +353,7 @@ STRICT RULES:
 - Maximum 3 lines per script — less is always more
 - These need to work as text on screen — short, punchy, readable in 2 seconds
 - Think bold statements, not descriptions
-- At least 2 should create FOMO through implication, not by saying "you're missing out"
-- Write like a caption a cool person would put on their own story, not branded content
+- At least 2 should create FOMO through implication
 
 Return ONLY JSON array:
 [{"platform":"Story","text":"line1\nline2\nline3","tags":["overlay"]}]`
@@ -301,22 +363,64 @@ Return ONLY JSON array:
     sub: 'Native TikTok captions with hooks, CTAs, and trending energy.',
     prompt: (v,d,b,t) => `Write TikTok captions for Venuu, a Knoxville nightlife app. ${d}, ${v}${b?`, ${b}`:''}.  Tone: ${t}.
 
-TikTok captions are different from Instagram — they're conversational, lowercase-heavy, self-aware, and short.
+TikTok captions are conversational, lowercase-heavy, self-aware, and short.
 
 STRICT RULES:
 - No cover charge, skip the line, or payment features
 - No hashtag dumps — maximum 3 hashtags, all relevant
-- Lowercase feels more native to TikTok — use it where it fits
-- No "POV:" unless it's genuinely creative and unexpected
+- Lowercase feels more native to TikTok
+- No "POV:" unless genuinely creative
 - Reference Venuu's live headcount feature in at least 3
-- Self-aware and slightly understated beats over-hyped every single time
+- Self-aware and slightly understated beats over-hyped every time
 
 Generate 5 captions. Return ONLY JSON array:
 [{"platform":"TikTok","text":"caption","tags":["#fyp","#venuu"]}]`
+  },
+  hashtags: {
+    title: 'Hashtag Packs',
+    sub: 'Curated, platform-optimized hashtag sets for any night.',
+    prompt: (v,d,b,t) => `Generate a hashtag pack for Venuu nightlife content.
+
+Context: ${d} night, ${v} vibe, tone: ${t}${b ? `, at ${b}` : ''}.
+Venuu is a Knoxville nightlife app for college students (18-24).
+
+Create 3 sets:
+1. Instagram Reach — 8 broad discovery tags
+2. Instagram Niche — 7 community-specific tags
+3. TikTok — 5 tags, lowercase, native-feeling
+
+RULES:
+- No generic tags like #nightlife #party #fun
+- Mix location, culture, and app-specific tags
+- Include #venuu in each set
+- Reflect the specific ${v} vibe and ${t} tone
+- TikTok tags should feel native, not branded
+
+Return ONLY JSON array:
+[{"platform":"Instagram — Reach","text":"","tags":["#tag1","#tag2","#tag3","#tag4","#tag5","#tag6","#tag7","#tag8"]},{"platform":"Instagram — Niche","text":"","tags":["#tag1","#tag2","#tag3","#tag4","#tag5","#tag6","#tag7"]},{"platform":"TikTok","text":"","tags":["#tag1","#tag2","#tag3","#tag4","#tag5"]}]`
+  },
+  abpairs: {
+    title: 'A/B Pairs',
+    sub: 'Two versions of each caption — built to test what your audience responds to.',
+    prompt: (v,d,b,t) => `Write A/B test caption pairs for Venuu nightlife content.
+
+${d} night, ${v} vibe${b ? `, ${b}` : ''}. Tone: ${t}.
+Venuu is a Knoxville nightlife app (18-28 audience).
+
+For each pair: Version A and Version B take completely different angles — different structure, hook, emotional trigger. One understated, one punchy. One might lead with location, one with feeling.
+
+STRICT RULES:
+- No cover charge, skip the line, or payment mentions
+- No "vibes are immaculate" or generic hype
+- Write like someone who actually goes out
+- Each pair should feel like two genuinely different creative directions
+- Reference live headcount in at least 2 pairs naturally
+
+Generate 3 pairs (Instagram). Return ONLY JSON:
+[{"platform":"Instagram — A","text":"...","tags":["#tag"]},{"platform":"Instagram — B","text":"...","tags":["#tag"]},{"platform":"Instagram — A","text":"...","tags":["#tag"]},{"platform":"Instagram — B","text":"...","tags":["#tag"]},{"platform":"Instagram — A","text":"...","tags":["#tag"]},{"platform":"Instagram — B","text":"...","tags":["#tag"]}]`
   }
 };
 
-// ── Visual prompt builder ─────────────────────────────────────────────────────
 function buildVisualPrompt(v, d, b, t) {
   const vibeMap = {
     hype: 'high energy, crowded, electric atmosphere',
@@ -326,15 +430,13 @@ function buildVisualPrompt(v, d, b, t) {
     weekday: 'weeknight crowd, laid-back, after-work vibe',
     weekend: 'packed Saturday night, peak energy, everyone out'
   };
-  const vibeDesc = vibeMap[v] || v;
-
   return `Generate a detailed AI image/video generation prompt for Venuu nightlife content.
 
 Venuu is a Knoxville, Tennessee nightlife app used by college students (18-24). Their visual content features young women wearing Venuu branded merch (hoodies, tees, hats) in authentic bar settings — aspirational but real, never overly produced.
 
-Context for this prompt:
+Context:
 - Day/Night: ${d}
-- Vibe: ${vibeDesc}
+- Vibe: ${vibeMap[v] || v}
 - Tone: ${t}
 ${b ? `- Location: ${b}` : '- Location: Knoxville bar scene'}
 
@@ -342,20 +444,90 @@ Write a single detailed 80-120 word prompt for Higgsfield or FLUX image/video ge
 1. SUBJECT: 1-3 young women (early 20s) in Venuu branded clothing, natural poses, authentic expressions
 2. SETTING: specific bar interior matching the vibe — describe layout, crowd density, time of night
 3. LIGHTING: exact lighting style (warm amber Edison bulbs, neon bar signs, candlelight, etc.)
-4. CAMERA: phone camera aesthetic, candid style, specific angle (eye level, slight low angle, etc.)
+4. CAMERA: phone camera aesthetic, candid style, specific angle
 5. MOOD: match the ${t} tone — aspirational, not staged
 6. DETAILS: specific atmospheric details that make it feel real
 
 Return ONLY the prompt text. No labels, no JSON, no explanation.`;
 }
 
+// ── History ───────────────────────────────────────────────────────────────────
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem('venuu_history') || '[]'); } catch { return []; }
+}
+
+function saveToHistory(results, visualPrompt) {
+  const history = getHistory();
+  history.unshift({
+    id: Date.now(),
+    ts: new Date().toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }),
+    mode: currentMode,
+    modeTitle: modeConfig[currentMode].title,
+    inputs: { ...currentInputs },
+    results,
+    visualPrompt
+  });
+  localStorage.setItem('venuu_history', JSON.stringify(history.slice(0, 10)));
+}
+
+function openHistory() {
+  const modal = document.getElementById('historyModal');
+  const list = document.getElementById('historyList');
+  const history = getHistory();
+  modal.classList.add('open');
+  if (!history.length) {
+    list.innerHTML = '<div class="history-empty">No generations yet. Hit generate to start.</div>';
+    return;
+  }
+  list.innerHTML = history.map((h, i) => {
+    const preview = h.results && h.results[0] ? h.results[0].text.slice(0, 120) + (h.results[0].text.length > 120 ? '…' : '') : '';
+    const inp = h.inputs || {};
+    return `<div class="history-item" onclick="restoreHistory(${i})">
+      <div class="history-item-top">
+        <div class="history-item-mode">${esc(h.modeTitle || h.mode)}</div>
+        <div class="history-item-ts">${esc(h.ts)}</div>
+      </div>
+      <div class="history-item-preview">${esc(preview)}</div>
+      <div class="history-item-meta">${esc(inp.vibe||'')} · ${esc(inp.day||'')}${inp.bar ? ' · ' + esc(inp.bar) : ''} · ${h.results ? h.results.length : 0} results</div>
+    </div>`;
+  }).join('');
+}
+
+function closeHistory() {
+  document.getElementById('historyModal').classList.remove('open');
+}
+
+function restoreHistory(idx) {
+  const history = getHistory();
+  const h = history[idx];
+  if (!h) return;
+  closeHistory();
+  currentResults = h.results || [];
+  currentVisualPrompt = h.visualPrompt || '';
+  currentMode = h.mode;
+  currentInputs = h.inputs || {};
+  cardVariations = {};
+  if (modeConfig[currentMode]) {
+    document.getElementById('modeTitle').textContent = modeConfig[currentMode].title;
+    document.getElementById('modeSub').textContent = modeConfig[currentMode].sub;
+  }
+  if (h.inputs) {
+    if (h.inputs.vibe) document.getElementById('vibeSelect').value = h.inputs.vibe;
+    if (h.inputs.day) document.getElementById('daySelect').value = h.inputs.day;
+    if (h.inputs.bar !== undefined) document.getElementById('barInput').value = h.inputs.bar;
+  }
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  renderResults(currentResults);
+  renderVisualPrompt(currentVisualPrompt);
+}
+
+// ── Mode & tone ───────────────────────────────────────────────────────────────
 function setMode(mode, btn) {
   currentMode = mode;
   document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  const cfg = modeConfig[mode];
-  document.getElementById('modeTitle').textContent = cfg.title;
-  document.getElementById('modeSub').textContent = cfg.sub;
+  document.getElementById('modeTitle').textContent = modeConfig[mode].title;
+  document.getElementById('modeSub').textContent = modeConfig[mode].sub;
   clearResults();
 }
 
@@ -373,12 +545,15 @@ function toggleTone(btn, tone) {
 function clearResults() {
   currentResults = [];
   currentVisualPrompt = '';
+  cardVariations = {};
   document.getElementById('tabRow').style.display = 'none';
+  document.getElementById('batchActions').style.display = 'none';
   document.getElementById('errorMsg').classList.remove('visible');
   document.getElementById('visualArea').innerHTML = '';
   document.getElementById('resultsArea').innerHTML = `<div class="empty-state"><div style="font-size:28px;opacity:0.3;">◈</div><div>Set your vibe and hit generate.</div><div style="font-size:11px;opacity:0.5;">Powered by Claude AI</div></div>`;
 }
 
+// ── Generate ──────────────────────────────────────────────────────────────────
 async function generate() {
   const v = document.getElementById('vibeSelect').value;
   const d = document.getElementById('daySelect').value;
@@ -388,24 +563,25 @@ async function generate() {
   const loader = document.getElementById('loadingBar');
   const errorEl = document.getElementById('errorMsg');
 
+  currentInputs = { vibe: v, day: d, bar: b, tone: t };
+  cardVariations = {};
+
   btn.disabled = true;
   btn.textContent = 'Generating...';
   loader.classList.add('active');
   errorEl.classList.remove('visible');
   document.getElementById('tabRow').style.display = 'none';
+  document.getElementById('batchActions').style.display = 'none';
   document.getElementById('visualArea').innerHTML = '';
   document.getElementById('resultsArea').innerHTML = `<div class="empty-state"><div style="font-size:28px;opacity:0.3;">◈</div><div>Cooking up content...</div></div>`;
 
   const cfg = modeConfig[currentMode];
   const captionPrompt = cfg.prompt(v, d, b, t);
-  const visualSystemPrompt = buildVisualPrompt(v, d, b, t);
+  const visualPromptText = buildVisualPrompt(v, d, b, t);
 
-  // Show visual loading state immediately
   document.getElementById('visualArea').innerHTML = `
     <div class="result-card visual-card">
-      <div class="result-card-header">
-        <div class="result-platform">◈ AI Visual Prompt — Higgsfield / FLUX</div>
-      </div>
+      <div class="result-card-header"><div class="result-platform">◈ AI Visual Prompt — Higgsfield / FLUX</div></div>
       <div class="visual-loading">
         <div class="visual-dot"></div><div class="visual-dot"></div><div class="visual-dot"></div>
         <span>Building visual prompt...</span>
@@ -413,35 +589,24 @@ async function generate() {
     </div>`;
 
   try {
-    // Fire both requests in parallel
     const [captionRes, visualRes] = await Promise.all([
-      fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: captionPrompt })
-      }),
-      fetch('/api/generate', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: visualSystemPrompt })
-      })
+      fetch('/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: captionPrompt }) }),
+      fetch('/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt: visualPromptText }) })
     ]);
 
-    // Process captions
     if (!captionRes.ok) throw new Error(`Server error: ${captionRes.status}`);
     const captionData = await captionRes.json();
     const raw = captionData.content.map(i => i.text || '').join('');
     const clean = raw.replace(/```json|```/g, '').trim();
-    const parsed = JSON.parse(clean);
-    currentResults = parsed;
-    renderResults(parsed);
+    currentResults = JSON.parse(clean);
+    renderResults(currentResults);
 
-    // Process visual prompt
     if (visualRes.ok) {
       const visualData = await visualRes.json();
       currentVisualPrompt = visualData.content.map(i => i.text || '').join('').trim();
     }
     renderVisualPrompt(currentVisualPrompt);
+    saveToHistory(currentResults, currentVisualPrompt);
 
   } catch(e) {
     errorEl.textContent = `Something went wrong: ${e.message}. Check your API key is set in Vercel.`;
@@ -454,6 +619,7 @@ async function generate() {
   }
 }
 
+// ── Tabs ──────────────────────────────────────────────────────────────────────
 function setTab(filter, btn) {
   currentFilter = filter;
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -461,40 +627,217 @@ function setTab(filter, btn) {
   renderResults(currentResults);
 }
 
+// ── Render ────────────────────────────────────────────────────────────────────
 function renderResults(results) {
   if (!results || !results.length) { clearResults(); return; }
-  const filtered = currentFilter === 'all' ? results : results.filter(r => r.platform.toLowerCase().includes(currentFilter));
+  const filteredWithIdx = currentFilter === 'all'
+    ? results.map((r, i) => ({ r, i }))
+    : results.map((r, i) => ({ r, i })).filter(({ r }) => r.platform.toLowerCase().includes(currentFilter));
+
   document.getElementById('tabRow').style.display = 'flex';
-  document.getElementById('resultsArea').innerHTML = filtered.map((r, i) => `
-    <div class="result-card">
+  document.getElementById('batchActions').style.display = 'flex';
+  document.getElementById('batchCount').textContent = `${filteredWithIdx.length} result${filteredWithIdx.length !== 1 ? 's' : ''}`;
+
+  document.getElementById('resultsArea').innerHTML = filteredWithIdx.map(({ r, i }) => {
+    const tagsStr = r.tags && r.tags.length ? '\n\n' + r.tags.join(' ') : '';
+    const charCount = r.text ? (r.text + tagsStr).length : 0;
+    return `
+    <div class="result-card" id="card-${i}">
       <div class="result-card-header">
-        <div class="result-platform">${r.platform}</div>
+        <div class="result-platform">${esc(r.platform)}</div>
         <button class="copy-btn" onclick="copyCaption(this, ${i})">Copy</button>
       </div>
-      <div class="result-text">${esc(r.text)}</div>
-      ${r.tags && r.tags.length ? `<div class="result-tags">${r.tags.map(t=>`<span class="result-tag">${esc(t)}</span>`).join('')}</div>` : ''}
-    </div>`).join('') || `<div class="empty-state"><div>No results for this filter.</div></div>`;
+      <div class="result-text" id="text-${i}">${esc(r.text)}</div>
+      ${r.tags && r.tags.length ? `<div class="result-tags" id="tags-${i}">${r.tags.map(t=>`<span class="result-tag">${esc(t)}</span>`).join('')}</div>` : `<div id="tags-${i}"></div>`}
+      <div class="card-footer">
+        <div class="char-count" id="cc-${i}">${charCount} chars</div>
+        <div class="card-actions">
+          <button class="card-action-btn" onclick="editCard(${i})" id="edit-btn-${i}">Edit</button>
+          <button class="card-action-btn" onclick="getVariations(${i})" id="var-btn-${i}">Variations</button>
+          <button class="card-action-btn" onclick="regenerateCard(${i})" id="regen-btn-${i}">↻ Regen</button>
+        </div>
+      </div>
+      <div id="var-area-${i}"></div>
+    </div>`;
+  }).join('') || `<div class="empty-state"><div>No results for this filter.</div></div>`;
 }
 
 function renderVisualPrompt(text) {
-  if (!text) {
-    document.getElementById('visualArea').innerHTML = '';
-    return;
-  }
+  if (!text) { document.getElementById('visualArea').innerHTML = ''; return; }
   document.getElementById('visualArea').innerHTML = `
     <div class="result-card visual-card">
       <div class="result-card-header">
         <div class="result-platform">◈ AI Visual Prompt — Higgsfield / FLUX</div>
         <button class="copy-btn" onclick="copyVisual(this)">Copy Prompt</button>
       </div>
-      <div class="result-text visual-text">${esc(text)}</div>
+      <div class="result-text">${esc(text)}</div>
       <div class="visual-label">Paste this into Higgsfield or any AI image/video tool</div>
     </div>`;
 }
 
+// ── Edit in place ─────────────────────────────────────────────────────────────
+function editCard(idx) {
+  const editBtn = document.getElementById(`edit-btn-${idx}`);
+  const item = currentResults[idx];
+  if (!item || !editBtn) return;
+
+  if (editBtn.textContent === 'Edit') {
+    const textEl = document.getElementById(`text-${idx}`);
+    const ta = document.createElement('textarea');
+    ta.className = 'caption-textarea';
+    ta.id = `text-${idx}`;
+    ta.value = item.text;
+    ta.oninput = () => {
+      currentResults[idx].text = ta.value;
+      const tagsStr = item.tags && item.tags.length ? '\n\n' + item.tags.join(' ') : '';
+      const cc = document.getElementById(`cc-${idx}`);
+      if (cc) cc.textContent = `${(ta.value + tagsStr).length} chars`;
+    };
+    textEl.replaceWith(ta);
+    ta.focus();
+    editBtn.textContent = 'Done';
+    editBtn.classList.add('active-edit');
+  } else {
+    const ta = document.getElementById(`text-${idx}`);
+    if (ta) currentResults[idx].text = ta.value;
+    const div = document.createElement('div');
+    div.className = 'result-text';
+    div.id = `text-${idx}`;
+    div.textContent = currentResults[idx].text;
+    ta.replaceWith(div);
+    editBtn.textContent = 'Edit';
+    editBtn.classList.remove('active-edit');
+  }
+}
+
+// ── Regenerate single ─────────────────────────────────────────────────────────
+async function regenerateCard(idx) {
+  const item = currentResults[idx];
+  const btn = document.getElementById(`regen-btn-${idx}`);
+  const textEl = document.getElementById(`text-${idx}`);
+  if (!item || !btn || !textEl) return;
+
+  const origText = item.text;
+  btn.disabled = true;
+  btn.textContent = '...';
+  textEl.style.opacity = '0.3';
+
+  const { vibe: v, day: d, tone: t } = currentInputs;
+  const prompt = `Rewrite this ${item.platform} social media caption for Venuu (Knoxville nightlife app, 18-28 audience).
+
+Original: "${origText}"
+
+Keep same platform (${item.platform}), same vibe (${v||'hype'}), same tone (${t||'bold'}). Write a completely different version — new angle, new opening, different structure. Same rules: no cover charge mentions, no generic hype phrases, write like someone who actually goes out.
+
+Return ONLY the caption text, no JSON, no explanation.`;
+
+  try {
+    const res = await fetch('/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt }) });
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    const newText = data.content.map(i => i.text || '').join('').trim();
+    currentResults[idx].text = newText;
+    textEl.textContent = newText;
+    const tagsStr = item.tags && item.tags.length ? '\n\n' + item.tags.join(' ') : '';
+    const cc = document.getElementById(`cc-${idx}`);
+    if (cc) cc.textContent = `${(newText + tagsStr).length} chars`;
+  } catch {
+    currentResults[idx].text = origText;
+    textEl.textContent = origText;
+  } finally {
+    textEl.style.opacity = '1';
+    btn.disabled = false;
+    btn.textContent = '↻ Regen';
+  }
+}
+
+// ── Variations ────────────────────────────────────────────────────────────────
+async function getVariations(idx) {
+  const item = currentResults[idx];
+  const btn = document.getElementById(`var-btn-${idx}`);
+  const varArea = document.getElementById(`var-area-${idx}`);
+  if (!item || !btn || !varArea) return;
+
+  if (varArea.innerHTML && !varArea.querySelector('.variation-loading')) {
+    varArea.innerHTML = '';
+    btn.textContent = 'Variations';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '...';
+  varArea.innerHTML = `<div class="variations-area"><div class="variation-loading"><div class="visual-dot"></div><div class="visual-dot"></div><div class="visual-dot"></div><span>Writing variations...</span></div></div>`;
+
+  const { vibe: v, tone: t } = currentInputs;
+  const prompt = `Write 3 variations of this ${item.platform} caption for Venuu nightlife content.
+
+Original: "${item.text}"
+
+Each variation takes a meaningfully different angle — different opening, different emotional hook, different structure. All must follow: no cover charge mentions, no generic hype, write like someone who actually goes out. Same platform (${item.platform}), same vibe (${v||'hype'}).
+
+Return ONLY a JSON array of 3 strings:
+["variation 1 text","variation 2 text","variation 3 text"]`;
+
+  try {
+    const res = await fetch('/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt }) });
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    const raw = data.content.map(i => i.text || '').join('').replace(/```json|```/g,'').trim();
+    const vars = JSON.parse(raw);
+    cardVariations[idx] = vars;
+    varArea.innerHTML = `<div class="variations-area">
+      <div class="variations-label">Variations — click Use to swap in</div>
+      ${vars.map((v, vi) => `
+        <div class="variation-item">
+          <div class="variation-text">${esc(v)}</div>
+          <button class="copy-btn" style="flex-shrink:0;" onclick="useVariation(${idx}, ${vi}, this)">Use</button>
+        </div>`).join('')}
+    </div>`;
+    btn.textContent = 'Variations';
+  } catch {
+    varArea.innerHTML = '';
+    btn.textContent = 'Variations';
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+function useVariation(idx, varIdx, btn) {
+  const vars = cardVariations[idx];
+  if (!vars || !vars[varIdx]) return;
+  currentResults[idx].text = vars[varIdx];
+  const textEl = document.getElementById(`text-${idx}`);
+  if (textEl) textEl.textContent = vars[varIdx];
+  const item = currentResults[idx];
+  const tagsStr = item.tags && item.tags.length ? '\n\n' + item.tags.join(' ') : '';
+  const cc = document.getElementById(`cc-${idx}`);
+  if (cc) cc.textContent = `${(vars[varIdx] + tagsStr).length} chars`;
+  btn.textContent = 'Used ✓';
+  btn.classList.add('copied');
+  setTimeout(() => { btn.textContent = 'Use'; btn.classList.remove('copied'); }, 2000);
+}
+
+// ── Batch copy ────────────────────────────────────────────────────────────────
+function batchCopyAll() {
+  const filtered = currentFilter === 'all'
+    ? currentResults
+    : currentResults.filter(r => r.platform.toLowerCase().includes(currentFilter));
+  if (!filtered.length) return;
+  const text = filtered.map(r => {
+    const tags = r.tags && r.tags.length ? '\n' + r.tags.join(' ') : '';
+    return `[${r.platform}]\n${r.text}${tags}`;
+  }).join('\n\n---\n\n');
+  const btn = document.getElementById('batchCopyBtn');
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied All!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy All'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// ── Copy individual ───────────────────────────────────────────────────────────
 function copyCaption(btn, i) {
-  const filtered = currentFilter === 'all' ? currentResults : currentResults.filter(r => r.platform.toLowerCase().includes(currentFilter));
-  const item = filtered[i];
+  const item = currentResults[i];
   if (!item) return;
   const full = item.text + (item.tags && item.tags.length ? '\n\n' + item.tags.join(' ') : '');
   navigator.clipboard.writeText(full).then(() => {
